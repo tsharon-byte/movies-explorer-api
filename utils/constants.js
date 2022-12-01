@@ -7,6 +7,7 @@ const INCORRECT_DATA_ERROR = 'Переданы некорректные данн
 const CONFLICT_ERROR = 'Конфликт. Объект с указанными данными уже существует.';
 const FORBIDDEN_ERROR = 'Запрещено.';
 const DELETION_FORBIDDEN_ERROR = 'Удаление Запрещено.';
+const INCORRECT_LOGIN_OR_PASSWORD_ERROR = 'Некорректный логин или пароль.';
 module.exports = {
   URL_REGEXP,
   DEFAULT_MESSAGE_ERROR,
@@ -17,4 +18,5 @@ module.exports = {
   CONFLICT_ERROR,
   FORBIDDEN_ERROR,
   DELETION_FORBIDDEN_ERROR,
+  INCORRECT_LOGIN_OR_PASSWORD_ERROR,
 };

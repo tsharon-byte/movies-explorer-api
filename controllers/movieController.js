@@ -13,34 +13,7 @@ const getMovie = (req, res, next) => {
     .catch((err) => checkError(err, next));
 };
 const createMovie = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-  } = req.body;
-  const { user } = req;
-  Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-    owner: user._id,
-  })
+  Movie.create({ ...req.body, owner: req.user._id })
     .then((doc) => res.status(201).send(doc))
     .catch((err) => checkError(err, next));
 };
