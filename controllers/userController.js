@@ -60,9 +60,9 @@ const getUser = (req, res, next) => {
     .catch((err) => checkError(err, next));
 };
 const updateUser = (req, res, next) => {
-  const { name } = req.body;
+  const { name, email } = req.body;
   const { user } = req;
-  User.findByIdAndUpdate(user._id, { name }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(user._id, { name, email }, { new: true, runValidators: true })
     .select('email name')
     .then((doc) => {
       if (!doc) {
