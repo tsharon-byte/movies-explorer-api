@@ -5,7 +5,7 @@ const { JWT_KEY } = require('../utils/config');
 const NotFoundError = require('../errors/NotFoundError');
 const checkError = require('../utils/checkError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
-const { INCORRECT_LOGIN_OR_PASSWORD_ERROR } = require('../utils/constants');
+const { INCORRECT_LOGIN_OR_PASSWORD_ERROR, SUCCESSFUL_LOGIN, LOGOUT } = require('../utils/constants');
 
 const createUser = (req, res, next) => {
   const { email, name, password } = req.body;
@@ -40,12 +40,12 @@ const login = (req, res, next) => {
             httpOnly: true,
             sameSite: 'none',
             secure: true,
-          }).status(200).send({ message: 'Logged in' });
+          }).status(200).send({ message: SUCCESSFUL_LOGIN });
         });
     }).catch((err) => checkError(err, next));
 };
 const clearCookie = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Выход' });
+  res.clearCookie('jwt').send({ message: LOGOUT });
 };
 const getUser = (req, res, next) => {
   const { user } = req;

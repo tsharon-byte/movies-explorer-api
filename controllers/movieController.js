@@ -1,6 +1,6 @@
 const Movie = require('../models/movie');
 const checkError = require('../utils/checkError');
-const { DELETION_FORBIDDEN_ERROR } = require('../utils/constants');
+const { DELETION_FORBIDDEN_ERROR, DELETED } = require('../utils/constants');
 const ForbiddenError = require('../errors/ForbiddenError');
 const NotFoundError = require('../errors/NotFoundError');
 
@@ -29,7 +29,7 @@ const deleteMovie = (req, res, next) => {
         return next(new ForbiddenError(DELETION_FORBIDDEN_ERROR));
       }
       return Movie.findByIdAndRemove(id)
-        .then(() => res.send({ movie, message: 'Удалено' }));
+        .then(() => res.send({ movie, message: DELETED }));
     })
     .catch((err) => checkError(err, next));
 };

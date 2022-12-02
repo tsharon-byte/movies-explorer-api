@@ -8,6 +8,9 @@ const CONFLICT_ERROR = 'Конфликт. Объект с указанными �
 const FORBIDDEN_ERROR = 'Запрещено.';
 const DELETION_FORBIDDEN_ERROR = 'Удаление Запрещено.';
 const INCORRECT_LOGIN_OR_PASSWORD_ERROR = 'Некорректный логин или пароль.';
+const DELETED = 'Удалено';
+const SUCCESSFUL_LOGIN = 'Добро пожаловать!';
+const LOGOUT = 'Выход';
 module.exports = {
   URL_REGEXP,
   DEFAULT_MESSAGE_ERROR,
@@ -19,4 +22,7 @@ module.exports = {
   FORBIDDEN_ERROR,
   DELETION_FORBIDDEN_ERROR,
   INCORRECT_LOGIN_OR_PASSWORD_ERROR,
+  DELETED,
+  SUCCESSFUL_LOGIN,
+  LOGOUT,
 };

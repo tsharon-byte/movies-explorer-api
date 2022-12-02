@@ -27,19 +27,19 @@ const createMovieValidation = celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().pattern(URL_REGEXP),
-    movieId: Joi.string().required().length(24).hex(),
+    movieId: Joi.number().required(),
   }),
 });
 const deleteMovieValidation = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24),
+    id: Joi.string().hex().length(24),
   }),
 });
 
 const updateUserValidation = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().email(),
+    name: Joi.string().required().min(2).max(30),
+    email: Joi.string().required().email(),
   }),
 });
 module.exports = {
