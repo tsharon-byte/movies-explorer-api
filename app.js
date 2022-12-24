@@ -10,6 +10,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes');
 const { MONGO_LOCAL } = require('./utils/config');
 const limiter = require('./middlewares/limiter');
+const cors = require('./middlewares/cors');
 
 const { NODE_ENV, MONGO_DB } = process.env;
 const mongoUrl = NODE_ENV === 'production' ? MONGO_DB : MONGO_LOCAL;
@@ -22,7 +23,7 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 app.use(limiter);
-
+app.use(cors);
 app.use(routes);
 
 app.use(errorLogger);
