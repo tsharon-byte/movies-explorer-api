@@ -40,7 +40,7 @@ const login = (req, res, next) => {
             httpOnly: true,
             sameSite: 'none',
             secure: true,
-          }).status(200).send({ message: SUCCESSFUL_LOGIN });
+          }).status(200).send({ name: user.name, email: user.email });
         });
     }).catch((err) => checkError(err, next));
 };
