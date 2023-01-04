@@ -5,21 +5,34 @@ const { JWT_KEY } = require('../utils/config');
 const NotFoundError = require('../errors/NotFoundError');
 const checkError = require('../utils/checkError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
-const { INCORRECT_LOGIN_OR_PASSWORD_ERROR, SUCCESSFUL_LOGIN, LOGOUT } = require('../utils/constants');
+const { INCORRECT_LOGIN_OR_PASSWORD_ERROR, LOGOUT } = require('../utils/constants');
+
+const prepareToken = (user) => {
+  const { NODE_ENV, JWT_SECRET } = process.env;
+  const JWT = NODE_ENV === 'production' ? JWT_SECRET : JWT_KEY;
+  return jwt.sign(
+    { _id: user._id },
+    JWT,
+    { expiresIn: '7d' },
+  );
+};
 
 const createUser = (req, res, next) => {
   const { email, name, password } = req.body;
   bcrypt.hash(password, 10)
     .then((hash) => User.create({ email, name, password: hash })
       .then((data) => {
-        res.status(201).send({ email: data.email, _id: data._id, name: data.name });
+        const token = prepareToken(data);
+        res.cookie('jwt', token, {
+          httpOnly: true,
+          sameSite: 'none',
+          secure: true,
+        }).status(201).send({ email: data.email, _id: data._id, name: data.name });
       }))
     .catch((err) => checkError(err, next));
 };
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  const { NODE_ENV, JWT_SECRET } = process.env;
-  const JWT = NODE_ENV === 'production' ? JWT_SECRET : JWT_KEY;
   User.findOne({ email })
     .select('+password')
     .then((user) => {
@@ -31,11 +44,7 @@ const login = (req, res, next) => {
           if (!result) {
             return next(new UnauthorizedError(INCORRECT_LOGIN_OR_PASSWORD_ERROR));
           }
-          const token = jwt.sign(
-            { _id: user._id },
-            JWT,
-            { expiresIn: '7d' },
-          );
+          const token = prepareToken(user);
           return res.cookie('jwt', token, {
             httpOnly: true,
             sameSite: 'none',
