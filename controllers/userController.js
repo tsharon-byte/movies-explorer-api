@@ -45,7 +45,10 @@ const login = (req, res, next) => {
     }).catch((err) => checkError(err, next));
 };
 const clearCookie = (req, res) => {
-  res.clearCookie('jwt').send({ message: LOGOUT });
+  res.clearCookie('jwt', {
+    sameSite: 'none',
+    secure: true,
+  }).send({ message: LOGOUT });
 };
 const getUser = (req, res, next) => {
   const { user } = req;
