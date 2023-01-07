@@ -13,7 +13,7 @@ const getMovie = (req, res, next) => {
     .catch((err) => checkError(err, next));
 };
 const createMovie = (req, res, next) => {
-  Movie.find({ movieId: req.movieId })
+  Movie.findOne({ movieId: req.movieId })
     .then((movie) => {
       if (movie) {
         return res.status(201).send(movie);
