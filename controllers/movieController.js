@@ -13,8 +13,14 @@ const getMovie = (req, res, next) => {
     .catch((err) => checkError(err, next));
 };
 const createMovie = (req, res, next) => {
-  Movie.create({ ...req.body, owner: req.user._id })
-    .then((doc) => res.status(201).send(doc))
+  Movie.find({ movieId: req.movieId })
+    .then((movie) => {
+      if (movie) {
+        return res.status(201).send(movie);
+      }
+      return Movie.create({ ...req.body, owner: req.user._id })
+        .then((doc) => res.status(201).send(doc));
+    })
     .catch((err) => checkError(err, next));
 };
 const deleteMovie = (req, res, next) => {
